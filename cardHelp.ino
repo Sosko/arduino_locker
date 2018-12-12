@@ -82,3 +82,45 @@ bool cardLoadData(String file) {
   }
   return false;
 }
+
+void cardLoadFile() {
+  char t;
+  //
+  if (cardLoadData(FFILE)) {
+    lcdl2(init1);
+    File file = cardOpenFile(FFILE);
+    do {
+      t = cardGetChar(file);
+    } while (t != '\n');
+    p("--------LD---------------");
+    for (int x = 0; x < FINT; x++) {
+      p("Loading of question");
+      _otazky[x] = cardGetChar(file);
+      cardGetChar(file); //:
+      p("question text");
+      while (true) {
+        t = cardGetChar(file);
+        if (t == ':') { //:
+          break;
+        }
+        _text[x] += t;
+      }
+      p("correct key");
+      while (true) {
+        t = cardGetChar(file);
+        if (!(t >= 48 && t <= 58)) {
+          break;
+        }
+        _kod[x] += t;
+      }
+      p("Next question");
+    }
+    for (int x = 0; x < FINT; x++) {
+      p("------------------");
+      p(_otazky[x]);
+      p(_text[x]);
+      p(_kod[x]);
+      p("------------------");
+    }
+  }
+}

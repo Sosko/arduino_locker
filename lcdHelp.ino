@@ -2,7 +2,7 @@ void lcdInit() {
   Serial.println("LCD init");
   lcd.init();
   lcd.init();
-  lcd.backlight();
+  lcdLI();
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Init ");
@@ -26,4 +26,11 @@ void lcdl2(String text) {
 }
 void lcdl2(char text) {
   lcd.print(text);
+}
+
+void lcdLO() {
+  lcd.noBacklight();
+}
+void lcdLI() {
+  lcd.backlight();
 }
