@@ -32,5 +32,6 @@ void lcdLO() {
   lcd.noBacklight();
 }
 void lcdLI() {
+  p("Light");
   lcd.backlight();
 }

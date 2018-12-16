@@ -7,10 +7,11 @@
 //LCD
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
+// Tiemr
+#include <TimerThree.h>
 
-//??
-volatile byte state = LOW;
-const int T2I = 300;
+//TimerVar
+const int T2I = 60;
 int T2i = 0;
 
 //SD variables
@@ -63,12 +64,8 @@ String line2 = "Spravne                ";
 String line3 = "Spatne                 ";
 /* LANG */
 
-ISR(TIMER2_OVF_vect) {
+void TimerAct() {
   T2i++;
-  if (T2i >= T2I) {
-    T2i = 0;
-    lcdLO();
-  }
 }
 
 void setup() {
@@ -86,9 +83,9 @@ void setup() {
   lcdl1(init2);
   //Wait
   delay(500);
-  //Timer2
-  TIMSK2 = (TIMSK2 & B11111110) | 0x01;
-  TCCR2B = (TCCR2B & B11111000) | 0x07;
+  //Timer3
+  Timer3.initialize(150000);
+  Timer3.attachInterrupt(TimerAct);
 }
 
 void loop() {
